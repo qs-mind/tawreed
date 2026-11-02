@@ -2,7 +2,8 @@
 
 - The refresh token is in the OS keychain (`core.keychain`), never in ~/.tawreed. ~/.tawreed/account.json holds
   only who is signed in and when the last refresh succeeded.
-- Tawreed refreshes at most once an hour while the interface asks for the account (five minutes after a failed try).
+- Tawreed refreshes at most once an hour while the interface asks for the account (five minutes after a failed try),
+  in the background: the answer is the state before that refresh.
 - The lease: Tawreed works for LEASE_DAYS after the last successful refresh, online or not. After that it is
   read-only (`writable()` is False: no changes, no AI steps) until a refresh succeeds. Nothing is deleted.
 - A refusal from the account service (signed out everywhere, account disabled, token expired) signs out here.
@@ -239,11 +240,16 @@ class Account:
             ):
                 return
             self._refreshing = True
-        try:
-            self._refresh(record)
-        finally:
-            with self._lock:
-                self._refreshing = False
+
+        def refresh() -> None:
+            try:
+                self._refresh(record)
+            finally:
+                with self._lock:
+                    self._refreshing = False
+
+        # In the background, so asking for the account never waits on the network; the next ask sees the result.
+        threading.Thread(target=refresh, name="qsmind-refresh", daemon=True).start()
 
     def _refresh(self, record: dict[str, Any]) -> None:
         token = self._refresh_token

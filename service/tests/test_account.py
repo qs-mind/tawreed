@@ -64,6 +64,17 @@ def browser(url: str) -> httpx.Response:
     return httpx.get(to_tawreed.headers["location"])
 
 
+def settled(app, condition, seconds=5.0) -> dict:
+    """The account once the background refresh has done what the test waits for."""
+    deadline = time.monotonic() + seconds
+    while time.monotonic() < deadline:
+        account = app.get("/account").json()
+        if condition(account):
+            return account
+        time.sleep(0.02)
+    raise AssertionError(f"the account did not get there: {app.get('/account').json()}")
+
+
 def sign_in(app, opened) -> dict:
     assert app.post("/account/sign-in", json={"language": "en"}).status_code == 200
     page = browser(opened[-1])
@@ -151,9 +162,8 @@ def test_the_account_is_refreshed_hourly_and_the_new_token_kept(app, oidc, opene
     app.get("/account")
     assert first in oidc.refresh_tokens  # not due yet
     app.clock.pass_(minutes=31)
-    account = app.get("/account").json()
-    assert account["state"] == "active"
-    assert account["lease_ends_at"] == (app.clock() + timedelta(days=14)).isoformat()
+    renewed = (app.clock() + timedelta(days=14)).isoformat()
+    assert settled(app, lambda a: a["lease_ends_at"] == renewed)["state"] == "active"
     second = memory_keychain.entries[next(k for k in memory_keychain.entries if k[1] == session.REFRESH_TOKEN)]
     assert second != first and second in oidc.refresh_tokens and first not in oidc.refresh_tokens
 
@@ -164,8 +174,7 @@ def test_offline_tawreed_works_for_the_lease_then_is_read_only_and_loses_nothing
     oidc.down = True
 
     app.clock.pass_(days=13, hours=23)
-    account = app.get("/account").json()
-    assert account["state"] == "offline"
+    settled(app, lambda a: a["state"] == "offline")
     assert app.patch(f"/projects/{project['id']}", json={"name": "Still works"}).status_code == 200
 
     app.clock.pass_(hours=1)
@@ -176,7 +185,7 @@ def test_offline_tawreed_works_for_the_lease_then_is_read_only_and_loses_nothing
 
     oidc.down = False
     app.clock.pass_(minutes=5)  # the next try, once the account service answers again
-    assert app.get("/account").json()["state"] == "active"
+    settled(app, lambda a: a["state"] == "active")
     assert app.patch(f"/projects/{project['id']}", json={"name": "Back"}).status_code == 200
 
 
@@ -185,7 +194,7 @@ def test_a_refused_refresh_signs_out_and_keeps_the_projects(app, oidc, opened, m
     app.post("/projects", files=[("files", ("a.csv", b"Code,Qty\n1,2\n"))])
     oidc.revoke_everything()  # signed out everywhere, on the account page
     app.clock.pass_(hours=2)
-    assert app.get("/account").json()["state"] == "signed_out"
+    settled(app, lambda a: a["state"] == "signed_out")
     assert not any(name == session.REFRESH_TOKEN for _, name in memory_keychain.entries)
     assert len(app.get("/projects").json()) == 1
 

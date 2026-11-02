@@ -11,9 +11,9 @@ written decision in that repo's `docs/`, as the workspace rules require.
 
 - **Sign-in comes first.** With no account on this computer, Tawreed shows one screen instead of the tabs: the mark,
   **Sign in with QS Mind** / **الدخول بحساب كيو إس مايند**, the language switch, and two plain lines:
-  - "Only your account goes to QS Mind." / "حسابك فقط يذهب إلى كيو إس مايند."
+  - "Only your account goes to QS Mind." / "حسابك وحده يذهب إلى كيو إس مايند."
   - "Your BOQs stay on your computer and never go to QS Mind. A project goes only to the AI service you choose, after
-    you allow it." / "جداول الكميات تبقى على جهازك ولا تذهب أبداً إلى كيو إس مايند. يذهب المشروع فقط إلى خدمة
+    you allow it." / "جداول الكميات تبقى على حاسوبك ولا تذهب أبداً إلى كيو إس مايند. يذهب المشروع فقط إلى خدمة
     الذكاء الاصطناعي التي تختارها، وبعد موافقتك."
 
   The brief asked for "your BOQs never leave your computer". That is not true once the engineer connects an AI
@@ -28,8 +28,8 @@ written decision in that repo's `docs/`, as the workspace rules require.
 - **Offline.** Tawreed keeps working for 14 days after the last successful refresh (`LEASE_DAYS` in
   `service/tawreed/account/session.py`). Settings shows "Offline: works until <date>" meanwhile.
 - **Lease over: read-only.** Projects, packages, revisions and their files stay open and exportable; Tawreed refuses
-  changes (`403 read_only`) and holds the AI steps until a refresh succeeds. A notice says so, with **Sign in**.
-  Nothing is deleted. Signing out, or a refresh the account service refuses (signed out everywhere, account
+  changes (`403 read_only`) and holds the AI steps until a refresh succeeds. A notice under the header says so,
+  with **Try again**; the service retries every five minutes on its own. Nothing is deleted. Signing out, or a refresh the account service refuses (signed out everywhere, account
   disabled, token expired), returns to the sign-in screen; projects are kept for the next sign-in.
 
 ## The connection (to copy to Qiyas and Quantix)
@@ -53,7 +53,7 @@ Native public client, as registered in `auth/src/clients.ts`: no secret, PKCE S2
    `user_code` and open `verification_uri_complete`; poll the token endpoint with
    `grant_type=urn:ietf:params:oauth:grant-type:device_code` at the given interval, slowing down on `slow_down`.
 6. **Refresh**: `grant_type=refresh_token` with `client_id`, at most once an hour while Tawreed asks for the account
-   (and five minutes after a failed try). Refresh tokens rotate: the new one replaces the old in the keychain. A
+   (and five minutes after a failed try), on a background thread so asking never waits on the network. Refresh tokens rotate: the new one replaces the old in the keychain. A
    network failure or a 5xx keeps the session (the lease counts on); `invalid_grant` ends it.
 7. **Sign out**: revoke the refresh token at the revocation endpoint (best effort; offline still signs out here),
    then delete it from the keychain and the account record.

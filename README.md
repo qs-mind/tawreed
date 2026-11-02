@@ -150,8 +150,11 @@ open, and the AI steps wait.
 
 - Everything lives in `~/.tawreed` on your computer: settings, projects, the copies of your files and every
   revision. Supplied files are never changed.
-- API keys are kept in `~/.tawreed/auth.json`, readable only by your user account. Tawreed shows only a key's last
-  four characters and sends a key only to its own service.
+- You sign in with your QS Mind account. Only your account goes to QS Mind; your BOQs never do. Tawreed works
+  offline for 14 days after it last reached QS Mind; after that it is read-only until it is online again, and loses
+  nothing.
+- API keys and your sign-in are kept in your system's keychain (Credential Manager on Windows, Keychain on a Mac,
+  Secret Service on Linux). Tawreed shows only a key's last four characters and sends a key only to its own service.
 - A project's content goes only to the AI service you picked, and only after you allow it: the first time, a card
   names the service and says what would be sent. Your keys and your other projects are never sent.
 - Text in a BOQ, PDF, image or comment is treated as data, never as instructions.

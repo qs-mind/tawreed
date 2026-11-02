@@ -683,6 +683,81 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/account": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Account */
+        get: operations["get_account_account_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/account/sign-in": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign In
+         * @description Open the QS Mind account in the system browser. The browser comes back to Tawreed on its own.
+         */
+        post: operations["sign_in_account_sign_in_post"];
+        /** Cancel Sign In */
+        delete: operations["cancel_sign_in_account_sign_in_delete"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/account/sign-in/code": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Sign In With Code
+         * @description Sign in with a short code approved at the account's device page, on this computer or another device.
+         */
+        post: operations["sign_in_with_code_account_sign_in_code_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/account/sign-out": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /** Sign Out */
+        post: operations["sign_out_account_sign_out_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
@@ -700,6 +775,29 @@ export interface components {
             version: string;
             /** Data Folder */
             data_folder: string;
+        };
+        /**
+         * AccountOut
+         * @description signed_out: sign in first. active: signed in. offline: the account service can't be reached, Tawreed works
+         *     until lease_ends_at. expired: the lease is over, Tawreed is read-only until it can refresh.
+         */
+        AccountOut: {
+            /**
+             * State
+             * @enum {string}
+             */
+            state: "signed_out" | "active" | "offline" | "expired";
+            /** Email */
+            email: string | null;
+            /** Name */
+            name: string | null;
+            /** Plan */
+            plan: string | null;
+            /** Lease Ends At */
+            lease_ends_at: string | null;
+            pending: components["schemas"]["PendingSignIn"] | null;
+            /** Problem */
+            problem: string | null;
         };
         /**
          * Answer
@@ -1039,6 +1137,18 @@ export interface components {
             /** Name */
             name: string;
         };
+        /** PendingSignIn */
+        PendingSignIn: {
+            /**
+             * Method
+             * @enum {string}
+             */
+            method: "browser" | "code";
+            /** Url */
+            url: string;
+            /** User Code */
+            user_code: string | null;
+        };
         /** Placement */
         Placement: {
             /** Item Ids */
@@ -1285,6 +1395,15 @@ export interface components {
             total_rows: number;
             /** Merged */
             merged: number[][];
+        };
+        /** SignIn */
+        SignIn: {
+            /**
+             * Language
+             * @default en
+             * @enum {string}
+             */
+            language: "en" | "ar";
         };
         /** SourceDetail */
         SourceDetail: {
@@ -2739,6 +2858,165 @@ export interface operations {
         };
     };
     codex_sign_in_ai_codex_sign_in_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    get_account_account_get: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccountOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sign_in_account_sign_in_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccountOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    cancel_sign_in_account_sign_in_delete: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            204: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sign_in_with_code_account_sign_in_code_post: {
+        parameters: {
+            query?: never;
+            header?: {
+                authorization?: string;
+            };
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["SignIn"];
+            };
+        };
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["AccountOut"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    sign_out_account_sign_out_post: {
         parameters: {
             query?: never;
             header?: {

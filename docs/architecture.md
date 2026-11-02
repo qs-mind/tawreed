@@ -11,7 +11,8 @@ ui/        React + Vite + TypeScript, Tailwind + shadcn/ui, TanStack Query; API 
 desktop/   Tauri 2 shell: the window; installed, it also starts the service and forwards to it. No domain logic.
 service/   Python 3.12, FastAPI, SQLAlchemy 2 + Alembic (SQLite), Pydantic AI
   tawreed/
-    core/        data home ~/.tawreed, database, atomic JSON files, launch token
+    core/        data home ~/.tawreed, database, atomic JSON files, launch token, the OS keychain
+    account/     sign in with QS Mind (qsmind.py, the protocol, copyable), the session and the offline lease
     ai/          connections and keys, the five API providers, the model check, subscription clients
     projects/    projects and consent records
     sources/     import, hashing, readers (Excel, CSV, ODS, PDF text with positions, page images), overlap
@@ -39,8 +40,13 @@ Each domain module owns its models and its service functions; the workflow's ste
 - The UI talks only to the HTTP API on loopback. Each service launch gets a fresh bearer token. In development the
   Vite server starts the service on a free port and forwards `/api` with the token, so the browser preview and the
   desktop window use the same path and the UI never holds the token or a key.
-- AI connections and keys are in `~/.tawreed/auth.json`, locked to the current user. The service never returns a
-  key, and keys are redacted from logs and prompts.
+- AI connections are in `~/.tawreed/connections.json`, locked to the current user; their keys are in the OS keychain
+  (`core/keychain.py`, through `keyring`). The service never returns a key, and keys are redacted from logs and
+  prompts.
+- The QS Mind account: the service holds the session (`account/`): loopback PKCE sign-in in the system browser, a
+  device code as the fallback, the refresh token in the OS keychain, an offline lease of 14 days. Past the lease,
+  changes to projects answer `403 read_only` and the workflow holds its AI steps. See
+  `docs/2026-11-02-qsmind-sign-in.md`.
 - `TAWREED_HOME` points the service at another data folder, for tests and scratch runs.
 - Long work runs on background threads from records in the database: files waiting to be read, and the runs of
   the workflow's steps, each recorded as it starts and ends. After a restart, a file left half-read is read again

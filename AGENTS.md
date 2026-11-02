@@ -31,9 +31,13 @@ specification is `docs/spec.md`; the architecture is `docs/architecture.md`; the
   Thmanyah Sans for all Arabic, with its swash letters (`swsh`) on headings: its licence forbids committing,
   uploading or hosting the font files, so they live only in the gitignored `ui/src/fonts/thmanyah/` and ship only
   inside the compiled app.
-- **Data.** Everything lives under `~/.tawreed` (`TAWREED_HOME` overrides it): keys in `auth.json`, settings in
-  `settings.json`, projects in the database. Never commit customer BOQs, keys, extracted content or databases.
+- **Data.** Everything lives under `~/.tawreed` (`TAWREED_HOME` overrides it): AI connections in
+  `connections.json`, who is signed in in `account.json`, settings in `settings.json`, projects in the database.
+  Secrets (the AI keys and the QS Mind refresh token) are only in the OS keychain, never in `~/.tawreed`. Never commit customer BOQs, keys, extracted content or databases.
   Use synthetic data for tests and approvals; real BOQs are read in place only with the engineer's say-so.
+- **QS Mind account.** Sign-in with QS Mind comes before Home. Only the account goes to QS Mind, never a BOQ.
+  Tawreed works offline for 14 days after the last refresh, then goes read-only and loses nothing. See
+  `docs/2026-11-02-qsmind-sign-in.md`.
 - **AI connections.** API keys for Anthropic, OpenAI, Google, xAI and one OpenAI-compatible endpoint; a ChatGPT
   subscription only through the official Codex client. Never read or copy subscription tokens.
 - **Simple.** A modular monolith. Prefer maintained libraries and documented APIs; check them before relying on

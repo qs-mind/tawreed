@@ -7,6 +7,7 @@ export type ProjectSummary = components["schemas"]["ProjectSummary"];
 export type Source = components["schemas"]["SourceOut"];
 export type Settings = components["schemas"]["SettingsOut"];
 export type About = components["schemas"]["AboutOut"];
+export type Account = components["schemas"]["AccountOut"];
 export type Connection = components["schemas"]["ConnectionOut"];
 export type Provider = Connection["provider"];
 export type ModelCheck = components["schemas"]["ModelCheck"];

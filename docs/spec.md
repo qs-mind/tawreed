@@ -101,7 +101,11 @@ Tawreed is a tool, not a workspace. One window with four tabs: **Home**, **Histo
 - A round button in the page's bottom corner shows how many revisions there are and opens them: each with its
   files, Open folder and Export to….
 - **History** lists past projects and their revisions; opening one returns to Home for that project.
-- **Settings**: language, theme, the AI Tawreed works with, connections, and rules that apply to all projects.
+- **Settings**: the QS Mind account (who is signed in, the plan, Sign out), language, theme, the AI Tawreed works
+  with, connections, and rules that apply to all projects.
+- **Sign-in** with QS Mind comes before Home, in the system browser or with a code. Only the account goes to QS Mind;
+  BOQs never do. Tawreed works offline for 14 days after the last refresh, then is read-only until it reaches QS Mind
+  again, and loses nothing. See `docs/2026-11-02-qsmind-sign-in.md`.
 - **About**: version, limits of use, data folder, logs, updates and licences.
 
 Minimal and calm: white (or near-black in dark mode), hairlines, black primary buttons, and one amber accent that
@@ -117,9 +121,10 @@ Windows first.
 
 ## Data
 
-Everything Tawreed manages lives in `~/.tawreed`: AI connections and keys in `auth.json` (plain text, readable only
-by the user, never shown in full or logged), settings in `settings.json`, projects in the database, source copies
-and revisions under each project. Supplied files are never changed.
+Everything Tawreed manages lives in `~/.tawreed`: AI connections in `connections.json` and who is signed in to QS
+Mind in `account.json` (readable only by the user), settings in `settings.json`, projects in the database, source copies
+and revisions under each project. Supplied files are never changed. The AI keys and the QS Mind refresh token are
+in the operating system's keychain, never shown in full or logged.
 
 ## Not in v1
 

@@ -16,7 +16,8 @@ real BOQ, an API key or files from `~/.tawreed`. Please give us time to release 
 
 - **Local only.** The service listens on `127.0.0.1` and needs a fresh access token, made for each launch, on every
   route except `/health`.
-- **Keys.** AI keys are kept in `~/.tawreed/auth.json`, which only your user account can read. A ChatGPT subscription
+- **Keys.** AI keys and the QS Mind sign-in are kept in the operating system's keychain (Credential Manager on
+  Windows, Keychain on macOS, Secret Service on Linux), never in a plain file. A ChatGPT subscription
   is used only through the official Codex client; Tawreed never reads or copies its tokens.
 - **Consent.** A project's content goes to an AI service only after the engineer approves the consent card that names
   that service.

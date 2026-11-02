@@ -261,6 +261,7 @@ class BrowserSignIn:
         app_name: str = "",
     ):
         self.client, self.locale, self._done, self.app_name = client, locale, done, app_name
+        authorize = client._endpoint("authorization_endpoint")  # before listening: discovery may fail
         self.state, self.nonce, self.verifier = (secrets.token_urlsafe(32) for _ in range(3))
         self._answered = threading.Event()
         self.server = ThreadingHTTPServer(("127.0.0.1", 0), self._handler())
@@ -276,7 +277,7 @@ class BrowserSignIn:
             "code_challenge_method": "S256",
             "ui_locales": locale,
         }
-        self.url = f"{client._endpoint('authorization_endpoint')}?{urlencode(query)}"
+        self.url = f"{authorize}?{urlencode(query)}"
         threading.Thread(target=self.server.serve_forever, name="qsmind-sign-in", daemon=True).start()
         self._timer = threading.Timer(SIGN_IN_SECONDS, self._expire)
         self._timer.daemon = True
