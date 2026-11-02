@@ -164,6 +164,21 @@ def placed(client, project_id) -> dict:
     return {i["code"]: (i["package_id"], i["decided_by"]) for i in items}
 
 
+def test_the_ai_steps_wait_while_tawreed_is_read_only(client, ai):
+    """Past the offline lease nothing goes to the AI, not even the consent question; signed in again, it carries on."""
+    brain, _ = ai
+    client.app.state.worker.allowed = lambda: False
+    project_id = read_all(client, start(client, {"Tower BOQ.xlsx": workbook()})["id"])["id"]
+    client.app.state.worker.wake()
+    time.sleep(0.5)
+    assert client.get(f"/projects/{project_id}/work").json()["decisions"] == []
+    assert brain.prompts == []
+
+    client.app.state.worker.allowed = lambda: True
+    client.app.state.worker.wake()
+    settle(client, project_id, waiting("consent"))
+
+
 def test_the_workflow_runs_a_project_through_every_gate(client, ai):
     brain, _ = ai
     project_id = read_all(client, start(client, {"Tower BOQ.xlsx": workbook()})["id"])["id"]

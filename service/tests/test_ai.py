@@ -71,7 +71,7 @@ def checked(client, monkeypatch, respond=follows_instructions, model="model-a"):
     return client.post(f"/ai/connections/{connection['id']}/checks", json={"model": model}).json()
 
 
-def test_a_working_key_is_kept_in_auth_json_and_never_returned(client, models, tmp_path):
+def test_a_working_key_is_kept_in_the_keychain_and_never_returned(client, models, tmp_path, memory_keychain):
     response = add(client)
     assert response.status_code == 201
     connection = response.json()
@@ -79,8 +79,10 @@ def test_a_working_key_is_kept_in_auth_json_and_never_returned(client, models, t
     assert connection["key_hint"] == "abcd"
     assert "sk-test" not in json.dumps(connection)
 
-    saved = json.loads((tmp_path / "auth.json").read_text(encoding="utf-8"))
-    assert saved["connections"][0]["api_key"] == "sk-test-1234abcd"
+    saved = (tmp_path / "connections.json").read_text(encoding="utf-8")
+    assert "sk-test" not in saved and json.loads(saved)["connections"][0]["key_hint"] == "abcd"
+    assert list(memory_keychain.entries.values()) == ["sk-test-1234abcd"]
+    assert not (tmp_path / "auth.json").exists()
     assert client.get("/ai/connections").json() == [connection]
     assert client.get(f"/ai/connections/{connection['id']}/models").json() == ["model-b", "model-a"]
 
@@ -90,13 +92,13 @@ def test_a_refused_key_is_not_kept(client, models, tmp_path):
     response = add(client)
     assert response.status_code == 400
     assert response.json()["detail"] == {"code": "key_refused"}
-    assert not (tmp_path / "auth.json").exists()
+    assert not (tmp_path / "connections.json").exists()
 
 
 @pytest.mark.skipif(os.name == "nt", reason="file modes are POSIX; Windows keeps the files in the user's own profile")
-def test_auth_json_is_readable_by_the_current_user_only(client, models, tmp_path):
+def test_the_connections_file_is_readable_by_the_current_user_only(client, models, tmp_path):
     add(client)
-    file = tmp_path / "auth.json"
+    file = tmp_path / "connections.json"
     if os.name == "nt":
         acl = subprocess.run(["icacls", str(file)], capture_output=True, text=True, check=True).stdout
         entries = [line for line in acl.splitlines()[:-2] if ":" in line.replace(str(file), "")]
