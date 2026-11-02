@@ -1,17 +1,42 @@
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 import { About } from "../about/About";
+import { ReadOnly } from "../account/Account";
+import { useAccount } from "../account/queries";
+import { SignIn } from "../account/SignIn";
+import { explain } from "../api/client";
 import { History } from "../history/History";
 import { Home } from "../home/Home";
 import type { Key } from "../i18n";
 import { SettingsPage } from "../settings/SettingsPage";
 import { Logo } from "./Logo";
 import { useSettings } from "./settings";
+import { Alert, Page, Skeleton } from "./ui";
 import { Update } from "./Update";
 
 type Tab = "home" | "history" | "settings" | "about";
 const TABS: Tab[] = ["home", "history", "settings", "about"];
 
+/** Signed in to QS Mind first; then Tawreed's four tabs. */
 export function App() {
+  const { t } = useSettings();
+  const account = useAccount();
+  // A later check that fails keeps the last answer: only a first answer that never came stops the app.
+  if (!account.data) {
+    return (
+      <Page>
+        {account.isError ? (
+          <Alert onRetry={() => void account.refetch()}>{explain(account.error, t)}</Alert>
+        ) : (
+          <Skeleton className="h-24 w-full" />
+        )}
+      </Page>
+    );
+  }
+  if (account.data.state === "signed_out") return <SignIn account={account.data} />;
+  return <Tabs readOnly={<ReadOnly account={account.data} />} />;
+}
+
+function Tabs({ readOnly }: { readOnly: ReactNode }) {
   const { t, language, change } = useSettings();
   const [tab, setTab] = useState<Tab>("home");
   const [projectId, setProjectId] = useState<string | null>(null);
@@ -58,6 +83,7 @@ export function App() {
         </div>
       </header>
       <Update />
+      {readOnly}
       <main className="min-h-0 flex-1 overflow-y-auto">
         {tab === "home" && (
           <Home

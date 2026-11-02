@@ -79,7 +79,7 @@ def _checked(body: ConnectionCreate) -> None:
 
 
 def _out(connection: dict[str, Any]) -> ConnectionOut:
-    return ConnectionOut(**connection, key_hint=connection["api_key"][-4:])
+    return ConnectionOut(**connection)
 
 
 def _connection(home, connection_id: str) -> dict[str, Any]:

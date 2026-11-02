@@ -7,7 +7,7 @@ test("choosing a theme applies it at once and saves it", async () => {
   const calls = fakeService({ "PATCH /settings": () => ({ language: "en", theme: "dark", ai: null }) });
   renderApp();
   const user = userEvent.setup();
-  await user.click(screen.getByRole("button", { name: "Settings" }));
+  await user.click(await screen.findByRole("button", { name: "Settings" }));
 
   const theme = screen.getByRole("group", { name: "Theme" });
   expect(screen.getByRole("button", { name: "System" })).toHaveAttribute("aria-pressed", "true");
@@ -23,7 +23,7 @@ test("a choice the service refuses is undone", async () => {
   fakeService({ "PATCH /settings": () => new Response("{}", { status: 500 }) });
   renderApp();
   const user = userEvent.setup();
-  await user.click(screen.getByRole("button", { name: "Settings" }));
+  await user.click(await screen.findByRole("button", { name: "Settings" }));
 
   await user.click(screen.getByRole("button", { name: "Light" }));
 

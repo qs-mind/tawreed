@@ -1,4 +1,4 @@
-"""Small JSON files under the data home (settings.json, auth.json)."""
+"""Small JSON files under the data home (settings.json, connections.json, account.json)."""
 
 import json
 import logging

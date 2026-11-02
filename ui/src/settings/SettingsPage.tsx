@@ -1,4 +1,5 @@
 import { useState, type FormEvent, type ReactNode } from "react";
+import { AccountLine } from "../account/Account";
 import { ApiError, explain, type Connection, type Provider } from "../api/client";
 import { useSettings } from "../app/settings";
 import { Alert, button, Empty, field, link, Page, PageTitle, SectionLabel, Skeleton, SkeletonRows } from "../app/ui";
@@ -24,6 +25,9 @@ export function SettingsPage() {
       <div className="flex flex-col gap-4">
         <PageTitle>{t("settings.title")}</PageTitle>
         <div className="flex flex-col">
+          <Row label={t("settings.account")}>
+            <AccountLine />
+          </Row>
           <Row label={t("settings.language")}>
             <Choice
               label={t("settings.language")}

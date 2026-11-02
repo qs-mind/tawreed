@@ -18,6 +18,7 @@ dependencies = [
     "openpyxl>=3.1.5",
     "python-calamine>=0.8",
     "pypdfium2>=5.13",
+    "keyring>=25.6",  # the operating system's keychain: the QS Mind refresh token and the AI keys
 ]
 
 [project.optional-dependencies]

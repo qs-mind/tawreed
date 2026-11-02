@@ -9,7 +9,7 @@ test("four tabs, one page each", async () => {
   const user = userEvent.setup();
 
   // The QS Mind sphere with Tawreed's Steel face sits beside the name; the name alone is what screen readers hear.
-  const logo = screen.getByTestId("logo");
+  const logo = await screen.findByTestId("logo");
   expect(logo).toHaveAttribute("aria-hidden", "true");
   // Its gradient has an id of its own, so a second mark on the page doesn't share it.
   const gradient = logo.querySelector("linearGradient")!.id;
@@ -65,7 +65,7 @@ test("the language and theme from last time are there from the first paint, befo
   renderApp();
 
   // Still waiting for the service, and already in Arabic, right to left and dark.
-  expect(screen.getByRole("button", { name: "English" })).toBeInTheDocument();
+  expect(await screen.findByRole("button", { name: "English" })).toBeInTheDocument();
   expect(document.documentElement).toHaveAttribute("dir", "rtl");
   expect(document.documentElement.dataset.theme).toBe("dark");
 

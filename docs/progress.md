@@ -342,3 +342,20 @@ machine.
 - Kumbh Sans kerns "/." so tightly that the dot disappears; the data-folder path turns kerning off.
 - No support email: support will be a form in the app that saves to the QS Mind database. Not built yet.
 - Not done here: the repository is still private on GitHub; the launch-gaps items on logs and updates in About.
+
+## 2 November 2026: sign in with QS Mind (branch `launch/qsmind-signin`)
+
+- **Request (the founder, plan approved today):** required sign-in with the central QS Mind account before Home, the
+  session in the service, the refresh token in the OS keychain, a 14-day offline lease then read-only, an Account
+  line in Settings, and the AI keys moved from `auth.json` to the keychain. Spec:
+  [2026-11-02-qsmind-sign-in.md](2026-11-02-qsmind-sign-in.md).
+- **Built:** loopback PKCE sign-in in the system browser, a device code as the fallback (no deep link: it needs a
+  plugin, single-instance hand-off and installer registration on three systems); hourly refresh in the background
+  with rotating refresh tokens; past the lease, changes answer `403 read_only` and the AI steps wait. The protocol
+  (`service/tawreed/account/qsmind.py`) imports nothing of Tawreed, for Quantix and Qiyas to copy.
+- **Copy, founder's call:** the brief's "your BOQs never leave your computer" is not true once an AI service is
+  connected, so the screen says the BOQs never go to QS Mind and go only to the chosen AI service after consent.
+- **New dependency:** `keyring` 25.7 (MIT), with jaraco.classes, jaraco.context, jaraco.functools and more-itertools
+  (MIT), and on Linux SecretStorage (BSD-3-Clause) and jeepney (MIT).
+- **Waits on the account service:** registering Tawreed as a native client and putting its id in `CLIENT_ID`; a
+  `plan` claim once plans exist. Until then sign-in says it is not available yet.

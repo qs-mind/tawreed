@@ -9,7 +9,7 @@ const passed = { ok: true, problem: null, sees_images: true, checked_at: "2026-0
 async function openSettings() {
   const user = userEvent.setup();
   renderApp();
-  await user.click(screen.getByRole("button", { name: "Settings" }));
+  await user.click(await screen.findByRole("button", { name: "Settings" }));
   return user;
 }
 
@@ -28,7 +28,7 @@ test("the services are offered, and none is connected at first", async () => {
     "OpenAI-compatible service",
     "ChatGPT (Codex)",
   ]);
-  expect(screen.getByText(/Keys are kept in plain text in auth.json/)).toBeInTheDocument();
+  expect(screen.getByText(/Keys are kept in this computer’s keychain/)).toBeInTheDocument();
 });
 
 test("adding a key: it is sent once, hidden while typed, and the connection appears", async () => {

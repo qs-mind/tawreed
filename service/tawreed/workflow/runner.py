@@ -134,8 +134,10 @@ class Worker:
         sees_images: Callable[[], bool] | None = None,
         runs: Runs | None = None,
         mcp_url: str | None = None,
+        allowed: Callable[[], bool] = lambda: True,
     ):
         self.home = home
+        self.allowed = allowed  # whether AI steps may run: signed in to QS Mind, within the offline lease
         self.sessions = sessions
         self.runs = runs or Runs()
         self.mcp_url = mcp_url  # where Codex reaches the step's tools; unknown when the service's port isn't
@@ -214,7 +216,7 @@ class Worker:
     async def work(self) -> None:
         """Run steps until no project has one to run."""
         busy = True
-        while busy and not self._closing.is_set():
+        while busy and not self._closing.is_set() and self.allowed():
             busy = False
             with self.sessions() as session:
                 ids = list(session.scalars(select(Project.id).where(Project.paused.is_(False))))

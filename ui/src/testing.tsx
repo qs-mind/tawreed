@@ -17,6 +17,7 @@ export function fakeService(routes: Record<string, Handler>): Call[] {
   const calls: Call[] = [];
   const all: Record<string, Handler> = {
     "GET /settings": () => ({ language: "en", theme: "system", ai: null }),
+    "GET /account": () => signedIn(),
     "GET /projects": () => [],
     "GET /ai/connections": () => [],
     "GET /rules": () => [],
@@ -45,6 +46,20 @@ export function fakeService(routes: Record<string, Handler>): Call[] {
     }),
   );
   return calls;
+}
+
+/** The QS Mind account, signed in and within its lease. Tests override what they need. */
+export function signedIn(changes: Record<string, unknown> = {}) {
+  return {
+    state: "active",
+    email: "mona@example.test",
+    name: "Mona Adel",
+    plan: null,
+    lease_ends_at: "2026-11-16T09:00:00+00:00",
+    pending: null,
+    problem: null,
+    ...changes,
+  };
 }
 
 /** An open project's work: nothing running or waiting, no packages yet. Tests override what they need. */

@@ -317,7 +317,7 @@ def test_the_data_home_and_the_keys_are_private(tmp_path):
     db.open_database(home)
     assert stat.S_IMODE(home.stat().st_mode) == 0o700
     connections.add(home, "openai", "OpenAI", "sk-secret", None)
-    assert stat.S_IMODE((home / "auth.json").stat().st_mode) == 0o600
+    assert stat.S_IMODE((home / "connections.json").stat().st_mode) == 0o600
     assert not list(home.glob("*.tmp"))
 
 
@@ -330,7 +330,7 @@ def test_the_temporary_file_is_private_from_the_start(tmp_path, monkeypatch):
         return real(path, flags, mode, **kw)
 
     monkeypatch.setattr(os, "open", spy)
-    jsonfile.update(tmp_path / "auth.json", {}, lambda data: data.update(k="v"))
+    jsonfile.update(tmp_path / "connections.json", {}, lambda data: data.update(k="v"))
     assert modes == [0o600]
 
 
