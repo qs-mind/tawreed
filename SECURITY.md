@@ -6,7 +6,7 @@ Security fixes go into the latest release of Tawreed.
 
 ## Reporting a vulnerability
 
-Please don't open a public issue. Email it to [qsmind@agentmail.to](mailto:qsmind@agentmail.to) with
+Please don't open a public issue. Email it to [hello@qsmind.app](mailto:hello@qsmind.app) with
 "Tawreed security" in the subject.
 
 Say which version you used, what an attacker could do, and how to reproduce it with synthetic data. Never include a
