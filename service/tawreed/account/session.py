@@ -30,8 +30,8 @@ LEASE = timedelta(days=LEASE_DAYS)
 REFRESH_EVERY = timedelta(hours=1)
 RETRY_AFTER = timedelta(minutes=5)
 REFRESH_TOKEN = "qsmind-refresh-token"  # its name in the keychain
-# Given by auth.qsmind.app when Tawreed is registered as a native client; TAWREED_AUTH_CLIENT_ID overrides it.
-CLIENT_ID = ""
+# Tawreed's public native client at auth.qsmind.app (registered 2 Nov 2026); TAWREED_AUTH_CLIENT_ID overrides it.
+CLIENT_ID = "gwHiZ3uX_4T4L9eFT2DwB5L2VZLmTjUQ"
 APP_NAME = {"en": "Tawreed", "ar": "توريد"}
 
 

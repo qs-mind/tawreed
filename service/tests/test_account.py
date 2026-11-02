@@ -220,6 +220,7 @@ def test_signing_out_offline_still_signs_out_here(app, oidc, opened):
 
 def test_sign_in_without_a_registered_client_says_so(app, monkeypatch):
     monkeypatch.delenv("TAWREED_AUTH_CLIENT_ID")
+    monkeypatch.setattr(session, "CLIENT_ID", "")
     app.app.state.account._client = None
     refused = app.post("/account/sign-in", json={"language": "en"})
     assert (refused.status_code, refused.json()["detail"]["code"]) == (503, "sign_in_unavailable")
