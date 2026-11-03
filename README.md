@@ -10,7 +10,7 @@
 <p align="center" dir="rtl">توريد يحوّل جداول الكميات إلى حزم توريد جاهزة للتسعير، بالعربية والإنجليزية. كل رقم له مصدر.</p>
 
 <p align="center">
-  <img src="docs/media/published-en.png" alt="A published Tawreed project: eight procurement packages with item counts, amounts and the total, and Rev 00 ready in its folder" width="100%">
+  <img src="media/published-en.png" alt="A published Tawreed project: eight procurement packages with item counts, amounts and the total, and Rev 00 ready in its folder" width="100%">
 </p>
 
 Tawreed is a desktop app by [QS Mind](https://qsmind.app/en/tawreed) for quantity surveyors, estimators and
@@ -21,13 +21,13 @@ suppliers and subcontractors for pricing. You approve at every gate, and nothing
 ## Download
 
 <p>
-  <a href="https://github.com/qs-mind/tawreed/releases/latest/download/Tawreed_x64-setup.exe"><img src="docs/media/download-windows.svg" alt="Download for Windows" height="48"></a>
+  <a href="https://github.com/qs-mind/tawreed/releases/latest/download/Tawreed_x64-setup.exe"><img src="media/download-windows.svg" alt="Download for Windows" height="48"></a>
   &nbsp;
-  <a href="https://github.com/qs-mind/tawreed/releases/latest/download/Tawreed_aarch64.dmg"><img src="docs/media/download-macos.svg" alt="Download for Mac (Apple silicon)" height="48"></a>
+  <a href="https://github.com/qs-mind/tawreed/releases/latest/download/Tawreed_aarch64.dmg"><img src="media/download-macos.svg" alt="Download for Mac (Apple silicon)" height="48"></a>
   &nbsp;
-  <a href="https://github.com/qs-mind/tawreed/releases/latest/download/Tawreed_x64.dmg"><img src="docs/media/download-macos-intel.svg" alt="Download for Mac (Intel)" height="48"></a>
+  <a href="https://github.com/qs-mind/tawreed/releases/latest/download/Tawreed_x64.dmg"><img src="media/download-macos-intel.svg" alt="Download for Mac (Intel)" height="48"></a>
   &nbsp;
-  <a href="https://github.com/qs-mind/tawreed/releases/latest/download/Tawreed_amd64.AppImage"><img src="docs/media/download-linux.svg" alt="Download for Linux" height="48"></a>
+  <a href="https://github.com/qs-mind/tawreed/releases/latest/download/Tawreed_amd64.AppImage"><img src="media/download-linux.svg" alt="Download for Linux" height="48"></a>
 </p>
 
 | System | File |
@@ -59,7 +59,7 @@ Watch the launch film and the step-by-step guide, with a short clip for every st
 [Tawreed page](https://qsmind.app/en/tawreed#guide) ([بالعربية](https://qsmind.app/ar/tawreed#guide)).
 
 <p align="center">
-  <img src="docs/media/flow-en.gif" alt="The engineer picks the package for an uncertain item, publishes Rev 00, opens the Concrete works package and traces an item to its row in the source sheet" width="720">
+  <img src="media/flow-en.gif" alt="The engineer picks the package for an uncertain item, publishes Rev 00, opens the Concrete works package and traces an item to its row in the source sheet" width="720">
 </p>
 
 An item Tawreed could not place with confidence waits for you. You pick the package, Tawreed asks to publish and
@@ -160,7 +160,7 @@ open, and the AI steps wait.
 - Text in a BOQ, PDF, image or comment is treated as data, never as instructions.
 - The app's local service listens only on `127.0.0.1`, with a fresh access token for each launch.
 
-To report a security problem, see [SECURITY.md](SECURITY.md).
+To report a security problem, use GitHub's private vulnerability reporting on this repository.
 
 ## Screenshots
 
@@ -168,26 +168,26 @@ To report a security problem, see [SECURITY.md](SECURITY.md).
 
 | | |
 | --- | --- |
-| <img src="docs/media/home-en.png" alt="Home: drop BOQ files here, with recent projects"> | <img src="docs/media/consent-en.png" alt="Consent card naming the AI service before anything is sent"> |
+| <img src="media/home-en.png" alt="Home: drop BOQ files here, with recent projects"> | <img src="media/consent-en.png" alt="Consent card naming the AI service before anything is sent"> |
 | **Home.** Drop BOQs and the work starts. | **Consent.** Nothing is sent until you allow it. |
-| <img src="docs/media/plan-en.png" alt="The package plan: eight packages, each with its scope and the reason"> | <img src="docs/media/uncertain-en.png" alt="An uncertain item with two candidate packages and the AI's reasoning"> |
+| <img src="media/plan-en.png" alt="The package plan: eight packages, each with its scope and the reason"> | <img src="media/uncertain-en.png" alt="An uncertain item with two candidate packages and the AI's reasoning"> |
 | **Package plan.** Approve, edit or propose again. | **Uncertain item.** You pick the package. |
-| <img src="docs/media/publish-en.png" alt="Ready to publish: packages, items and amounts, with the choice to show rates"> | <img src="docs/media/items-en.png" alt="A package's items with unit, quantity, rate, amount and source"> |
+| <img src="media/publish-en.png" alt="Ready to publish: packages, items and amounts, with the choice to show rates"> | <img src="media/items-en.png" alt="A package's items with unit, quantity, rate, amount and source"> |
 | **Publish.** What the revision holds, computed. | **Packages.** Every item with its source. |
-| <img src="docs/media/source-en.png" alt="An item traced to its row in the source sheet"> | <img src="docs/media/settings-en.png" alt="Settings: language, theme, the AI and its connections"> |
+| <img src="media/source-en.png" alt="An item traced to its row in the source sheet"> | <img src="media/settings-en.png" alt="Settings: language, theme, the AI and its connections"> |
 | **Source.** One click to the cell. | **Settings.** Your AI connection and model. |
-| <img src="docs/media/history-en.png" alt="History: past projects and their revisions"> | |
+| <img src="media/history-en.png" alt="History: past projects and their revisions"> | |
 | **History.** Past projects and revisions. | |
 
 ### العربية
 
 | | |
 | --- | --- |
-| <img src="docs/media/home-ar.png" alt="الرئيسية بالعربية"> | <img src="docs/media/plan-ar.png" alt="خطة الحزم بالعربية"> |
+| <img src="media/home-ar.png" alt="الرئيسية بالعربية"> | <img src="media/plan-ar.png" alt="خطة الحزم بالعربية"> |
 | **الرئيسية** | **خطة الحزم** |
-| <img src="docs/media/uncertain-ar.png" alt="بند غير مؤكد بالعربية"> | <img src="docs/media/published-ar.png" alt="إصدار منشور بالعربية"> |
+| <img src="media/uncertain-ar.png" alt="بند غير مؤكد بالعربية"> | <img src="media/published-ar.png" alt="إصدار منشور بالعربية"> |
 | **بند غير مؤكد** | **الإصدار المنشور** |
-| <img src="docs/media/items-ar.png" alt="بنود الحزمة بالعربية"> | <img src="docs/media/source-ar.png" alt="مصدر البند بالعربية"> |
+| <img src="media/items-ar.png" alt="بنود الحزمة بالعربية"> | <img src="media/source-ar.png" alt="مصدر البند بالعربية"> |
 | **بنود الحزمة** | **المصدر** |
 
 All screenshots use made-up projects ("Synthetic Tower" and others) with synthetic BOQs.
@@ -228,9 +228,6 @@ another data folder, for example a scratch folder for testing.
 Run `npm run verify` before every push. CI runs the same checks, and fails if the API types are out of date, only
 when started by hand (Actions → CI → Run workflow).
 
-The specification is [docs/spec.md](docs/spec.md), the architecture [docs/architecture.md](docs/architecture.md)
-and the record of the work [docs/progress.md](docs/progress.md).
-
 ## Windows, Mac and Linux packages
 
 `npm run package` freezes the service with PyInstaller into `service/dist/tawreed-service/` and builds the NSIS
@@ -262,8 +259,7 @@ at the latest one. Release notes are in `docs/releases/<version>.md`.
 
 Locally, `npm run release -- <folder>` writes the same checksums and `latest.json` for a folder of signed packages of
 all four platforms and one version; it refuses a partial, unsigned or wrongly versioned feed, and a version that
-differs between files, and does not publish. The updater key, release inputs and clean-install test steps are in
-[docs/2026-10-10-updater-and-installer.md](docs/2026-10-10-updater-and-installer.md).
+differs between files, and does not publish.
 
 ## License
 

@@ -110,7 +110,7 @@ jobs:
             cp "bundle/macos-$arch/Tawreed_${VERSION}_$arch.dmg" "bundle/Tawreed_$arch.dmg"
           done
           gh release create "v$VERSION" --draft --target "$SHA" --title "Tawreed $VERSION" \
-            --notes-file "docs/releases/$VERSION.md" \
+            --notes-file "releases/$VERSION.md" \
             bundle/Tawreed_x64-setup.exe bundle/Tawreed_amd64.AppImage \
             bundle/Tawreed_aarch64.app.tar.gz bundle/Tawreed_x64.app.tar.gz bundle/Tawreed_aarch64.dmg bundle/Tawreed_x64.dmg
       - name: Signatures, checksums, update feed, and publish
@@ -131,4 +131,4 @@ jobs:
           gh release download "v$VERSION" --dir drafted --pattern 'Tawreed_*'
           (cd drafted && sha256sum -c ../bundle/SHA256SUMS.txt)
           gh release upload "v$VERSION" bundle/SHA256SUMS.txt bundle/latest.json --clobber
-          gh release edit "v$VERSION" --draft=false --latest --notes-file "docs/releases/$VERSION.md"
+          gh release edit "v$VERSION" --draft=false --latest --notes-file "releases/$VERSION.md"
