@@ -4,7 +4,7 @@
       "endpoints": [
         "https://github.com/qs-mind/tawreed/releases/latest/download/latest.json"
       ],
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDVERDQxQjg3QkIyM0IzNzgKUldSNHN5TzdoeHZVWGZ2MWJvSUUvRmV1RXYyVE1BaTg1WU5RcWpjMkcrYnhIaFlzT1d1RjZ1Y1YK"
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEUwRTVENTQzOTlEQjgyQ0QKUldUTmd0dVpROVhsNEVlMnBJSldaeTljV3g3MkNRb0h5VXNQbG5kWTBUOHZZejRUR2xGS01YVjIK"
     }
   },
   "bundle": {
