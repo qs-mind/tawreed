@@ -247,7 +247,7 @@ workflow on GitHub, use the bundled IBM Plex Sans Arabic.
 Releases are GitHub releases of this repo. Each carries `Tawreed_x64-setup.exe`, `Tawreed_amd64.AppImage`,
 `Tawreed_aarch64.dmg`, `Tawreed_x64.dmg`, the two macOS update archives (`Tawreed_aarch64.app.tar.gz`,
 `Tawreed_x64.app.tar.gz`), `SHA256SUMS.txt` and the update feed `latest.json`; the download links above and the app's updater always point
-at the latest one. Release notes are in `docs/releases/<version>.md`.
+at the latest one. Release notes are in `releases/<version>.md`.
 
 1. **Release build** (Actions, started by hand) tests and builds the Windows installer, the Linux AppImage and the
    two Mac apps for the version in `package.json` and keeps them as workflow artifacts.
